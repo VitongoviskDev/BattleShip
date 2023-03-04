@@ -1,4 +1,5 @@
-import MainMenu from "./DOM/pages/MainMenu";
 import './index.css';
+import { OpenPage } from "./Pages/Controllers/PagesController";
+import MainMenu from "./Pages/MainMenuPage";
 
-document.body.appendChild(MainMenu());
+OpenPage(MainMenu().id);

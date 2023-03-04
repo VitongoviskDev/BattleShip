@@ -1,11 +1,11 @@
-const Ship = (_id, _length = 0) =>{
+const Ship = (_id, _length, _direction, _timesHited, _shunk) =>{
 
     let id = _id
-    let length = _length;
-    let timesHited = 0;
-    let shunk = false;
+    let length = _length || 1;
+    let timesHited = _timesHited || 0;
+    let shunk = _shunk || false;
+    let direction = _direction || 'H';
 
-    const size = () => length <= 0 ? null : length;
     const hit = () =>{
         timesHited++;
         if(timesHited == length){
@@ -16,7 +16,7 @@ const Ship = (_id, _length = 0) =>{
     const isShunk = () => shunk;
     const getId = () => id;
 
-    return {size, hit, isShunk, getId};
+    return {id, length, timesHited, shunk, direction, hit, isShunk, getId};
 
 }
 export default Ship;

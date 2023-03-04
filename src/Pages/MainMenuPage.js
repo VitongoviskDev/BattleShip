@@ -1,10 +1,12 @@
-import { MainMenuPlay } from '../../uiManager';
-import './MainMenu.css';
+import { HandlePlayButtonClick, HandleInputChange } from './Controllers/MainMenuPageController';
+import './Styles/MainMenuPage.css';
 
 const MainMenu = () =>{
     //.container
     const container = document.createElement('div');
-    container.classList.add('container');
+    container.classList.add('page-root');
+    container.classList.add('main-menu-container');
+    container.id = 'MainMenu';
 
     //.container > .title-container
     const titleContainer = document.createElement('div');
@@ -23,19 +25,20 @@ const MainMenu = () =>{
     input.type = 'text';
     input.placeholder = 'Username';
     input.addEventListener('change', () =>{
-        input.classList.remove('wrong');
+        HandleInputChange();
     })
     //container > .signin-container > button
     const button = document.createElement('button');
     button.textContent = 'Play'
     button.addEventListener('click', () =>{
-        if(input.value == ''){
+        HandlePlayButtonClick();
+        /* if(input.value == ''){
             input.classList.add('wrong');
             return;
         }else{
             container.classList.add('leave');
             setTimeout(() => {MainMenuPlay(input.value)}, 300);
-        }
+        } */
     })
     //container > .signin-container APPENDING
     signinContainer.appendChild(input);

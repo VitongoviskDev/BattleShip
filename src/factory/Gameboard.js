@@ -1,10 +1,9 @@
-const Gameboard = () =>{
-    const boardSize = 10;
-    let ships = []
+const Gameboard = (_cells, _boardSize, _ships) =>{
+    const boardSize = _boardSize || 10;
+    let ships = _ships || [];
     //E = Empty; ship[object] = ship; M = Missed attack; A = Attacked
-    const cells = generateCells();
+    const cells = _cells || generateCells();
 
-    const getCells = () => cells;
     function generateCells(){
         let _cells = [];
         for (let i = 0; i < boardSize; i++) {
@@ -17,15 +16,15 @@ const Gameboard = () =>{
         }
         return _cells;
     }
-    const placeShip = (ship, x, y, direction) =>{
-        if(fit(ship, x, y, direction)){
-            if(direction == 'H'){
-                for (let i = y; i < y + ship.size(); i++) {
+    const placeShip = (ship, x, y) =>{
+        if(fit(ship, x, y)){
+            if(ship.direction == 'H'){
+                for (let i = y; i < parseInt(y) + ship.length; i++) {
                     cells[x][i] = ship;
                 }
             }else
             {
-                for (let i = x; i < x + ship.size(); i++) {
+                for (let i = x; i < parseInt(x) + ship.length; i++) {
                     cells[i][y] = ship;
                 }
             }
@@ -35,36 +34,48 @@ const Gameboard = () =>{
             return false;
         }
     }
-    function fit (ship, x, y, direction){
-        if(x < 0 || y < 0){
-            return false;
-        }
-        if(cells[x][y] == 'E'){
-            if(direction == 'H'){
-                if(y + ship.size() > boardSize){
-                    return false;
-                }
-                for (let i = y; i < y + ship.size(); i++) {
-                    if(cells[x][i] != 'E'){
-                        return false;
-                    }
-                }
-            }else{
-                if(x + ship.size() > boardSize){
-                    return false;
-                }
-                for (let i = x; i < x + ship.size(); i++) {
-                    if(cells[i][y] != 'E'){
-                        return false;
-                    }
+    function removeShip(x, y){
+        let cell = cells[x][y];
+        let filledCells = [];
+        console.log(cell);
+        if(cell.id > -1){
+            const ship = cell;
+            let dir = ship.direction == 'H' ? y : x;
+            for (let i = 0; i < ship.length; i++) {
+                console.log(i);
+                if(ship.direction == 'H'){
+                    cells[x][parseInt(y) +i] = 'E';
+                    filledCells.push({x:x, y:parseInt(y) +i})
+                }else{
+                    cells[parseInt(x) + i][y] = 'E';
+                    filledCells.push({x:parseInt(x) + i, y:y})
                 }
             }
         }
-        else {
-            return false
-        };
+        return filledCells;
+    }
+    function fit (ship, x, y){
+        let validCells = [];
+        if(x < 0 || y < 0){
+            return [];
+        }
+        let counter = 0;
 
-        return true;
+        if(ship.direction == 'H'){
+            while(y <= boardSize && cells[x][y] == 'E' && counter < ship.length){
+                validCells.push({x:x, y:y});
+                y++;
+                counter++;
+            }
+        }else{
+            while(x < boardSize && cells[x][y] == 'E' && counter < ship.length){
+                validCells.push({x:x, y:y});
+                x++;
+                counter++;
+            }
+        }
+
+        return validCells;
     }
     const boardString = () =>{
         let string = '';
@@ -73,7 +84,7 @@ const Gameboard = () =>{
             for (let j = 0; j < boardSize; j++) {
                 let curCell = cells[i][j];
                 if(curCell != 'M' && curCell != 'A' && curCell != 'E'){
-                    curCell = curCell.getId();
+                    curCell = curCell.id;
                 }
                 string += j == 0 ? `${curCell}` : ` ${curCell}`;
             }
@@ -82,8 +93,8 @@ const Gameboard = () =>{
     }
     function isAllShipsShunk (){
         for (let i = 0; i < ships.length; i++) {
-            if(!ships[i].isShunk()){
-                console.log("here");
+            if(!ships[i].shunk){
+                
                 return false; 
             }
         }
@@ -98,7 +109,7 @@ const Gameboard = () =>{
             cells[x][y] = 'A'
         }
     }
-    return {getCells, generateCells, placeShip, receiveAttack, isAllShipsShunk, boardString}
+    return {cells, boardSize, ships, generateCells, fit, placeShip, removeShip, receiveAttack, isAllShipsShunk, boardString}
 }
 
 export default Gameboard;
