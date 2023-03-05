@@ -9,6 +9,7 @@
 
     width: 40vw;
     max-width: 500px;
+    overflow: hidden;
 }
 .board .row{
     display: flex;
@@ -26,20 +27,20 @@
     border-right: 2px solid #007fff;
 }
 
-.board .row .cell:not(.attacked):hover{
-    background-color: #444;
-}
 .board .row .cell.attacked{
     background-color: rgb(255, 0, 0, .5);
 }
 
 
-.board.setup .row .cell.ship{
+.board .row .cell.ship{
     background-color: rgb(0, 127, 255);
 }
-.board.setup .row .cell.hover-correct{
+.board .row .cell.hover-correct{
     background-color: rgb(0, 255, 127, .3);
 }
-.board.setup .row .cell.hover-wrong{
+.board .row .cell.hover-wrong{
     background-color: rgb(255, 0, 127, .3);
+}
+.board:not(.setup):not(#player-board) .row .cell:not(.attacked):not(.ship):hover{
+    background-color: #444;
 }

@@ -1,6 +1,7 @@
 import Ship from "../../factory/Ship";
 import GameBoard from "../../factory/Gameboard";
 import { GetCurrentPage } from "../../Pages/Controllers/PagesController";
+import { disablePlayButton, disableShipButton, enablePlayButton, enableShipButton } from "../../Pages/Controllers/SetupPageController";
 
 function HandleBoardCellClicked(cell){
     const currentPage = GetCurrentPage();
@@ -63,58 +64,72 @@ function HandleBoardCellMouseout(){
 }
 
 
-const addShip = (cell) => {
-    console.log(`${cell.id} clicked`);
-    
-    const gameBoard = getGameboard();
-    const selectedShip =getSelectedShip();
+const addShip = () => {
+    const gameBoard = getPlayerGameboard();
+    const selectedShip = getSelectedShip();
     const allHoverCorrect = document.querySelectorAll(".cell.hover-correct");
-    for (let i = 0; i < allHoverCorrect.length; i++) {
-        allHoverCorrect[i].classList.remove('hover-correct');
-        allHoverCorrect[i].classList.add('ship');
+    if(allHoverCorrect.length > 0){
+        for (let i = 0; i < allHoverCorrect.length; i++) {
+            allHoverCorrect[i].classList.remove('hover-correct');
+            allHoverCorrect[i].classList.add('ship');
+            
+            let x = allHoverCorrect[i].parentNode.id;
+            let y = allHoverCorrect[i].id;
+            gameBoard.cells[x][y] = selectedShip;
+        }
+        disableShipButton(selectedShip);
 
-        let x = allHoverCorrect[i].parentNode.id;
-        let y = allHoverCorrect[i].id;
-        gameBoard.cells[x][y] = selectedShip;
+        gameBoard.ships.push(selectedShip);
+        if(gameBoard.ships.length == 5){
+            enablePlayButton();
+            console.log(gameBoard.boardString());
+        }
+        setGameboard(gameBoard);
     }
-
-    setGameboard(gameBoard);
 }
 const removeShip = (cell) => {
     console.log(`${cell.id} double clicked`);
-    const gameBoard = getGameboard();
+    const gameBoard = getPlayerGameboard();
 
     let x = cell.parentNode.id;
     let y = cell.id;
 
-    const filledCells = gameBoard.removeShip(x, y);
+    const ship = gameBoard.cells[x][y];
+    let id = null || ship.id;
 
-    const rows = document.querySelectorAll(".row");
-    for (let i = 0; i < filledCells.length; i++) {
-        x = filledCells[i].x;
-        y = filledCells[i].y;
-        console.log(x, y);
-        rows[x].childNodes[y].classList.remove('ship');
+    if(id != null){
+        const filledCells = gameBoard.removeShip(x, y);
+        
+        const rows = document.querySelectorAll(".row");
+        for (let i = 0; i < filledCells.length; i++) {
+            x = filledCells[i].x;
+            y = filledCells[i].y;
+            rows[x].childNodes[y].classList.remove('ship');
+        }
+        
+        setGameboard(gameBoard);
+        HandleBoardCellMouseout();
+        HandleBoardCellMouseover(cell)
+        enableShipButton(ship);
+        disablePlayButton();
     }
-
-    setGameboard(gameBoard);
-    HandleBoardCellMouseout();
-    HandleBoardCellMouseover(cell);
 }
 const setupCellMouseOver = (cell) =>{
-    const rows = document.querySelectorAll(".row");
-    const selectedShip = getSelectedShip();
-    let gameBoard = getGameboard();
+    let gameBoard = getPlayerGameboard();
 
-    let x = cell.parentNode.id;
-    let y = cell.id;
-    let fit = gameBoard.fit(selectedShip, x, y);
-    console.log(fit);
-    for (let i = 0; i < fit.length; i++) {
-        x = fit[i].x;
-        y = fit[i].y;
-        rows[x].childNodes[y].classList.add(fit.length >= selectedShip.length ? 'hover-correct' : 'hover-wrong');
+    if(gameBoard.ships.length < 5){
+        const rows = document.querySelectorAll(".row");
+        const selectedShip = getSelectedShip();
+        let x = cell.parentNode.id;
+        let y = cell.id;
+        let fit = gameBoard.fit(selectedShip, x, y);
+        for (let i = 0; i < fit.length; i++) {
+            x = fit[i].x;
+            y = fit[i].y;
+            rows[x].childNodes[y].classList.add(fit.length >= selectedShip.length ? 'hover-correct' : 'hover-wrong');
+        }
     }
+    
 }
 const setupCellMouseOut = () =>{
     let all = document.querySelectorAll(".cell.hover-correct");
@@ -133,7 +148,7 @@ function setPlayerGameBoard(board){
     console.log(board);
     localStorage.playerGameBoard = JSON.stringify(board);
 }
-const getGameboard = () =>{
+function getPlayerGameboard(){
     let boardData = JSON.parse(localStorage.playerGameBoard);
     return GameBoard(boardData.cells, boardData.boardSize, boardData.ships);
 }
@@ -149,4 +164,4 @@ const setSelectedShip = (ship) =>{
 }
 
 
-export {HandleBoardCellClicked, HandleBoardCellDoubleClick, HandleBoardCellRightClick, HandleBoardCellMouseover, HandleBoardCellMouseout, setPlayerGameBoard}
+export {HandleBoardCellClicked, HandleBoardCellDoubleClick, HandleBoardCellRightClick, HandleBoardCellMouseover, HandleBoardCellMouseout, getPlayerGameboard, setPlayerGameBoard}

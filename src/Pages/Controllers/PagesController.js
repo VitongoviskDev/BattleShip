@@ -1,5 +1,7 @@
+import GamePage from "../GamePage";
 import MainMenu from "../MainMenuPage";
 import SetupBoard from "../SetupBoardPage";
+import { FillBoards } from "./GamePageController";
 
 function OpenPage(page){
 
@@ -11,6 +13,8 @@ function OpenPage(page){
 
     const currentPage = document.getElementById(currentPageContainerId);
     
+
+    let nickname = JSON.parse(localStorage.nickname);
     setTimeout(() =>{
         if(currentPage){
             document.body.removeChild(currentPage);
@@ -22,11 +26,13 @@ function OpenPage(page){
                 SetCurrentPage(MainMenu().id);
                 break;
             case 'SetupBoard':
-                let nickname = JSON.parse(localStorage.nickname);
                 document.body.appendChild(SetupBoard(nickname));
                 SetCurrentPage(SetupBoard().id);
                 break;
             case 'Game':
+                document.body.appendChild(GamePage(nickname));
+                FillBoards(nickname);
+                SetCurrentPage(GamePage().id);
                 break;
             case 'Gameover':
                 break;

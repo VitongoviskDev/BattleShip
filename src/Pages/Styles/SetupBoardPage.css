@@ -11,6 +11,7 @@
     animation-duration: .6s;
 }
 .setup-board-container.leave{
+    transition: all ease-in .6s;
     animation: leave-setup;
     animation-iteration-count: 1;
     animation-duration: .6s;
@@ -26,10 +27,10 @@
 }
 @keyframes leave-setup {
     0%{
-        left: 0;
+        transform: scale(1);
     }
     100%{
-        left: -100vw;
+        transform: scale(0);
     }
 }
 
@@ -126,7 +127,7 @@
     padding-top: 4px;
 }
 
-.setup-board-container .bottom-container .board-container .board-hints{
+.hints-container{
     position: relative;
     top: -64px;
     
@@ -138,11 +139,11 @@
 
     height: 0;
 
-    animation: float-board-hints;
+    animation: float-hints;
     animation-duration: 3s;
     animation-iteration-count: infinite;
 }
-@keyframes float-board-hints {
+@keyframes float-hints {
     0%, 100%{
         top: -64px;
     }
@@ -150,35 +151,36 @@
         top: -72px;
     }
 }
-.setup-board-container .bottom-container .board-container .board-hints .hint{
+
+.hints-container .hint{
     display: flex;
     justify-content: center;
     width: 100%;
     gap: 16px;
+
+    font: 400 16px 'Roboto';
+    color: #f2f2f2;
 }
-.setup-board-container .bottom-container .board-container .board-hints .hint .image{
+.hints-container .hint .image{
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 2px;
 }
-.setup-board-container .bottom-container .board-container .board-hints .hint .image p{
+.hints-container .hint .image p{
     position: relative;
     top: -8px;
     font-size: 14px;
 }
-.setup-board-container .bottom-container .board-container .board-hints .hint img{
+.hints-container .hint img{
     height: 24px;
 }
+
 .setup-board-container .bottom-container .board-container{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
-
-    font: 400 16px 'Roboto';
-    color: #f2f2f2;
 }
 .setup-board-container .play-button-container{
     display: flex;

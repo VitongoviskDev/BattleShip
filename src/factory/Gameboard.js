@@ -37,18 +37,27 @@ const Gameboard = (_cells, _boardSize, _ships) =>{
     function removeShip(x, y){
         let cell = cells[x][y];
         let filledCells = [];
-        console.log(cell);
         if(cell.id > -1){
             const ship = cell;
-            let dir = ship.direction == 'H' ? y : x;
-            for (let i = 0; i < ship.length; i++) {
-                console.log(i);
+            for (let i = 0; i < 10; i++) {
                 if(ship.direction == 'H'){
-                    cells[x][parseInt(y) +i] = 'E';
-                    filledCells.push({x:x, y:parseInt(y) +i})
+                    if(cells[x][i].id == ship.id){
+                        cells[x][i] = 'E';
+                        filledCells.push({x:x, y:i})
+                    }
                 }else{
-                    cells[parseInt(x) + i][y] = 'E';
-                    filledCells.push({x:parseInt(x) + i, y:y})
+                    if(cells[i][y].id == ship.id){
+                        cells[i][y] = 'E';
+                        filledCells.push({x:i, y:y})
+                    }
+                }
+            }
+            console.log('filledCells:',filledCells);
+
+            for (let i = 0; i < ships.length; i++) {
+                if(ships[i].id == ship.id){
+                    ships.splice(i, 1);
+                    break;
                 }
             }
         }

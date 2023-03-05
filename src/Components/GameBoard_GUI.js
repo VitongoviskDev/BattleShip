@@ -4,6 +4,7 @@ const Board = (player) =>{
 
     const board = document.createElement('div');
     board.classList.add('board');
+    board.id = player ? 'player-board' : 'machine-board';
     
     for(let i = 0; i < 10; i++) {
         const row = document.createElement('div');

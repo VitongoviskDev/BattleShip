@@ -5,13 +5,13 @@ import Board from '../Components/GameBoard_GUI';
 import widthIcon from '../Assets/width.png'
 import leftClickIcon from '../Assets/left-click.png'
 import rightClickIcon from '../Assets/right-click.png'
-import { HandleSetupPiecesButtonClicked } from './Controllers/SetupPageController';
+import { HandleSetupPlayButtonClicked, HandleSetupPiecesButtonClicked } from './Controllers/SetupPageController';
 import { setPlayerGameBoard } from '../Components/Controllers/GameBoardController';
 import Gameboard from '../factory/Gameboard';
 
 const SetupBoard = (nickname) => {
     const container = document.createElement('div');
-    container.classList.add('root');
+    container.classList.add('page-root');
     container.classList.add('setup-board-container');
     container.id = 'SetupBoard';
     container.innerHTML = 
@@ -21,10 +21,17 @@ const SetupBoard = (nickname) => {
         </div>
         <div class="bottom-container">
             <div class="pieces-container">
-                
+                <div class="hints-container">
+                    <div class="hint">
+                        <div class="image">
+                            <img src='${leftClickIcon}' alt='left click icon'>
+                        </div>
+                        <p>click to select the ship</p>
+                    </div>
+                </div>
             </div>
             <div class="board-container">
-                <div class="board-hints">
+                <div class="hints-container">
                     <div class="hint">
                         <div class="image">
                             <img src='${rightClickIcon}' alt='right click icon'>
@@ -55,21 +62,11 @@ const SetupBoard = (nickname) => {
         const button = document.createElement('button');
         button.classList.add('active');
         
-        button.id = i;
+        button.id = `ship-button-${i+1}`;
         button.textContent = `SHIP ${i + 1}`;
         button.addEventListener('click', () =>{
-            let selected = document.querySelector('.ship-button button.selected');
-            if(selected){
-                selected.classList.remove('selected');
-                HandleSetupPiecesButtonClicked(i + 1);
-            }
-
-            button.classList.add('selected');
+            HandleSetupPiecesButtonClicked(button, i + 1);
         })
-        if(i == 0){
-            button.classList.add('selected');
-            HandleSetupPiecesButtonClicked(i + 1);
-        }
 
         const img = document.createElement('img');
 
@@ -86,14 +83,17 @@ const SetupBoard = (nickname) => {
         sizeContainer.appendChild(sizeP);
         sizeContainer.appendChild(sizeImg);
 
-
         shipButton.appendChild(button);
         shipButton.appendChild(sizeContainer);
 
         container.querySelector('.pieces-container').appendChild(shipButton);
     }
+    
+    let button = document.getElementById('ship-button-1')
+    if(button){
+        button.classList.add('selected');
+    }
 
-    console.log('setup');
     setPlayerGameBoard(Gameboard());
     container.querySelector('.board-container').appendChild(Board())
     container.querySelector('.board-container .board').classList.add("setup");
@@ -103,10 +103,15 @@ const SetupBoard = (nickname) => {
 
     const playButton = document.createElement('button');
     playButton.textContent = 'Play';
+    playButton.addEventListener('click',()=>{
+        HandleSetupPlayButtonClicked(playButton);
+    })
 
     playButtonContainer.appendChild(playButton);
 
     container.appendChild(playButtonContainer);
+
+    
 
     return container;
 }

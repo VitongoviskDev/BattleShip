@@ -35,25 +35,25 @@
 }
 
 
-.title-container,
-.signin-container{
+.main-menu-container .title-container,
+.main-menu-container .signin-container{
     display: flex;
     justify-content: center;
     align-items: center;
     height: 33vh;
 }
 
-.title-container h1{
+.main-menu-container .title-container h1{
     font: 900 96px 'Roboto';
     color: #f2f2f2;
 }
 
 
-.signin-container{
+.main-menu-container .signin-container{
     flex-direction: column;
     gap: 8px;
 }
-.signin-container input{
+.main-menu-container .signin-container input{
     padding: .5rem 1rem;
     width: 300px;
 
@@ -64,13 +64,13 @@
     outline: none;
     transition: all ease-in-out .2s;
 }
-.signin-container input.invalid{
+.main-menu-container .signin-container input.invalid{
     border: 2px solid rgb(220, 20, 60);
     background-color: #f8aebd;
 }
 
 
-.signin-container button{
+.main-menu-container .signin-container button{
     padding: .8rem 1rem;
     width: 300px;
 
@@ -85,7 +85,7 @@
     cursor: pointer;
     transition: all ease-in-out .2s;
 }
-.signin-container button:hover{
+.main-menu-container .signin-container button:hover{
     background-color: #007fff;
     transform: scale(1.05);
 }
