@@ -2,13 +2,13 @@ import './index.css';
 import { OpenPage } from "./Pages/Controllers/PagesController";
 import MainMenu from "./Pages/MainMenuPage";
 
-localStorage.nickname = JSON.stringify(null);
-localStorage.currentPageContainerId = JSON.stringify(null);
-localStorage.currentFormId = JSON.stringify(null);
-localStorage.nickname = JSON.stringify(null);
-localStorage.winner = JSON.stringify(null);
-localStorage.playerGameBoard = JSON.stringify(null);
-localStorage.machineGameboard = JSON.stringify(null);
-localStorage.selectedShip = JSON.stringify(null);
+localStorage.nickname = JSON.stringify('');
+localStorage.currentPageContainerId = JSON.stringify('');
+localStorage.currentFormId = JSON.stringify('');
+localStorage.nickname = JSON.stringify('');
+localStorage.winner = JSON.stringify('');
+localStorage.playerGameBoard = JSON.stringify('');
+localStorage.machineGameboard = JSON.stringify('');
+localStorage.selectedShip = JSON.stringify('');
 
 OpenPage(MainMenu().id);
