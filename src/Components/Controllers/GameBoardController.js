@@ -1,15 +1,20 @@
 import Ship from "../../factory/Ship";
 import GameBoard from "../../factory/Gameboard";
-import { GetCurrentPage } from "../../Pages/Controllers/PagesController";
+import { GetCurrentPage, OpenPage } from "../../Pages/Controllers/PagesController";
 import { disablePlayButton, disableShipButton, enablePlayButton, enableShipButton } from "../../Pages/Controllers/SetupPageController";
+import Player from "../../factory/Player";
+import { HandlePlayButtonClick } from "../../Pages/Controllers/MainMenuPageController";
+import GameOverPage from '../../Pages/GameoverPage';
+
 
 function HandleBoardCellClicked(cell){
     const currentPage = GetCurrentPage();
     switch(currentPage){
         case 'SetupBoard':
-                addShip(cell);
+            addShip(cell);
             break;
         case 'Game':
+            attackCell(cell);
             break;
         case 'Gameover':
             break;
@@ -84,7 +89,7 @@ const addShip = () => {
             enablePlayButton();
             console.log(gameBoard.boardString());
         }
-        setGameboard(gameBoard);
+        setPlayerGameBoard(gameBoard);
     }
 }
 const removeShip = (cell) => {
@@ -143,18 +148,60 @@ const setupCellMouseOut = () =>{
     }
 }
 
-function setPlayerGameBoard(board){
+const attackCell = (cell) => {
+    const machineGameBoard = getMachineGameboard();
+    const playerGameBoard = getPlayerGameboard();
 
-    console.log(board);
+    const x = cell.parentNode.id;
+    const y = cell.id;
+    
+    let gameBoard = cell.parentNode.parentNode.id == 'player-board' ? playerGameBoard : machineGameBoard
+    let ships = gameBoard.receiveAttack(x, y);
+    if(ships != false){
+        gameBoard.ships = ships;
+        cell.classList.remove("ship");
+        cell.classList.add("attacked");
+
+        if(gameBoard.isAllShipsShunk()){
+            let nickname = JSON.parse(localStorage.nickname);
+            localStorage.winner = JSON.stringify(cell.parentNode.parentNode.id == 'player-board' ?  'machine' : nickname);
+            OpenPage(GameOverPage().id)
+        }
+        if(cell.parentNode.parentNode.id == 'player-board'){
+            setPlayerGameBoard(gameBoard);
+        }else{
+            setMachineGameboard(gameBoard);
+        }
+        
+    }else{
+        cell.classList.add("missed");
+    }   
+
+    if(cell.parentNode.parentNode.id == 'machine-board'){
+        let machine = Player();
+        let play = machine.RandomPlay(playerGameBoard.cells);
+        let machineCell = document.querySelectorAll('.row')[play.x].childNodes[play.y];
+        console.log(machineCell);
+        attackCell(machineCell);
+    }
+}
+
+
+function setPlayerGameBoard(board){
     localStorage.playerGameBoard = JSON.stringify(board);
 }
 function getPlayerGameboard(){
     let boardData = JSON.parse(localStorage.playerGameBoard);
     return GameBoard(boardData.cells, boardData.boardSize, boardData.ships);
 }
-const setGameboard = (gameBoard) =>{
-    localStorage.playerGameBoard = JSON.stringify(gameBoard);
+const setMachineGameboard = (board) =>{
+    localStorage.machineGameboard = JSON.stringify(board);
 }
+const getMachineGameboard = () =>{
+    let boardData = JSON.parse(localStorage.machineGameboard);
+    return GameBoard(boardData.cells, boardData.boardSize, boardData.ships);
+}
+
 const getSelectedShip = () =>{
     let shipData = JSON.parse(localStorage.selectedShip);
     return Ship(shipData.id, shipData.length, shipData.direction, shipData.timesHited, shipData.shunk);
@@ -164,4 +211,4 @@ const setSelectedShip = (ship) =>{
 }
 
 
-export {HandleBoardCellClicked, HandleBoardCellDoubleClick, HandleBoardCellRightClick, HandleBoardCellMouseover, HandleBoardCellMouseout, getPlayerGameboard, setPlayerGameBoard}
+export {HandleBoardCellClicked, HandleBoardCellDoubleClick, HandleBoardCellRightClick, HandleBoardCellMouseover, HandleBoardCellMouseout, getPlayerGameboard, setPlayerGameBoard, getMachineGameboard, setMachineGameboard}

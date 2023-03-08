@@ -11,6 +11,7 @@
     animation-iteration-count: 1;
     animation-duration: .6s;
     transition: all ease-out .6s;
+
 }
 .game-container.leave{
     animation: leave-game-page;

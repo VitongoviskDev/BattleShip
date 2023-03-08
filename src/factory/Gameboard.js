@@ -1,3 +1,5 @@
+import Ship from "./Ship";
+
 const Gameboard = (_cells, _boardSize, _ships) =>{
     const boardSize = _boardSize || 10;
     let ships = _ships || [];
@@ -103,19 +105,29 @@ const Gameboard = (_cells, _boardSize, _ships) =>{
     function isAllShipsShunk (){
         for (let i = 0; i < ships.length; i++) {
             if(!ships[i].shunk){
-                
                 return false; 
             }
         }
         return true;
     }
-    const receiveAttack = (x, y) => {
+    function receiveAttack(x, y){
         if(x > boardSize || y > boardSize || cells[x][y] == 'M' || cells[x][y] == 'A') return null;
         if(cells[x][y] == 'E'){
             cells[x][y] = 'M'
+            return false;
         }else{
-            cells[x][y].hit();
-            cells[x][y] = 'A'
+            let shipData = cells[x][y];
+            for (let i = 0; i < ships.length; i++) {
+                if(shipData.id == ships[i].id){
+                    shipData = ships[i];
+                    ships[i] = Ship(shipData.id, shipData.length, shipData.direction, shipData.timesHited, shipData.shunk);
+                    ships[i].hit();
+                    break;
+                }
+            }
+
+            cells[x][y] = 'A';
+            return ships;
         }
     }
     return {cells, boardSize, ships, generateCells, fit, placeShip, removeShip, receiveAttack, isAllShipsShunk, boardString}

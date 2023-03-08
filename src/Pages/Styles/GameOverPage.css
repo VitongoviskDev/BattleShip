@@ -1,0 +1,84 @@
+.GameOver-container{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5vh;
+
+    height: 100%;
+    background-color: #222;
+
+    animation: rise-gameover;
+    animation-iteration-count: 1;
+    animation-duration: .6s;
+}
+.GameOver-container.leave{
+    transition: all ease-in .6s;
+    animation: leave-gameover;
+    animation-iteration-count: 1;
+    animation-duration: .6s;
+}
+
+@keyframes rise-gameover {
+    0%{
+        top: 100vh;
+    }
+    100%{
+        top: 0;
+    }
+}
+@keyframes leave-gameover {
+    0%{
+        transform: scale(1);
+    }
+    100%{
+        transform: scale(0);
+    }
+}
+
+.GameOver-container .center{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.GameOver-container .center p{
+    font: 400 36px 'Roboto';
+    color: #f2f2f2;
+}
+.GameOver-container .center p:last-child{
+    font-size: 48px;
+    font-weight: 900;
+}
+.GameOver-container .center p.win{
+    color: #007fff;
+}
+.GameOver-container .center p.lose{
+    color: crimson;
+}
+
+.GameOver-container .button-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    padding: 2rem;
+    width: 60%;
+}
+.GameOver-container .button-container button{
+    padding: 2rem 4rem;
+    background-color: orange;
+    transition: all ease-in-out .2s;
+    
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+
+    font: 400 22px 'Roboto';
+}
+.GameOver-container .button-container button:hover{
+    background-color: #007fff;
+    color: #f2f2f2;
+}

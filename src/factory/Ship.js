@@ -6,15 +6,14 @@ const Ship = (_id, _length, _direction, _timesHited, _shunk) =>{
     let shunk = _shunk || false;
     let direction = _direction || 'H';
 
-    const hit = () =>{
-        timesHited++;
-        if(timesHited == length){
-            shunk = true;
+    function hit(){
+        this.timesHited++;
+        if(timesHited == length-1){
+            this.shunk = true;
         }
-        return timesHited;
     }
-    const isShunk = () => shunk;
-    const getId = () => id;
+    function isShunk(){return this.shunk};
+    function getId(){return this.id};
 
     return {id, length, timesHited, shunk, direction, hit, isShunk, getId};
 

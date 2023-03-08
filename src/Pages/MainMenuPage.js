@@ -30,6 +30,11 @@ const MainMenu = () =>{
     //container > .signin-container > button
     const button = document.createElement('button');
     button.textContent = 'Play'
+    button.addEventListener("keydown", logKey);
+
+    function logKey(e) {
+    log.textContent += ` ${e.code}`;
+    }
     button.addEventListener('click', () =>{
         HandlePlayButtonClick();
         /* if(input.value == ''){

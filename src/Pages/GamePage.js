@@ -1,6 +1,5 @@
-import { doc } from 'prettier';
 import Board from '../Components/GameBoard_GUI';
-import { FillBoards } from './Controllers/GamePageController';
+import { HandleResignButtonClicked } from './Controllers/GamePageController';
 import './Styles/GamePage.css';
 const GamePage = (nickname) =>{
     const container = document.createElement('div');
@@ -29,6 +28,11 @@ const GamePage = (nickname) =>{
     const boardContainers = container.querySelectorAll('.boards-container .board-container');
     boardContainers[0].appendChild(Board(true));
     boardContainers[1].appendChild(Board(false));
+
+    const resignButton = container.querySelector(".buttons-container button");
+    resignButton.addEventListener('click',() => {
+        HandleResignButtonClicked();
+    })
 
     
     return container;
