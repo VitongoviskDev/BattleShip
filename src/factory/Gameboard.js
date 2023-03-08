@@ -54,7 +54,6 @@ const Gameboard = (_cells, _boardSize, _ships) =>{
                     }
                 }
             }
-            console.log('filledCells:',filledCells);
 
             for (let i = 0; i < ships.length; i++) {
                 if(ships[i].id == ship.id){

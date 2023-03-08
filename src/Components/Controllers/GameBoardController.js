@@ -33,7 +33,6 @@ function HandleBoardCellDoubleClick(cell){
     }
 }
 function HandleBoardCellRightClick(cell){
-    console.log(`${cell.id} right clicked`);
 
     const selectedShip = getSelectedShip();
     selectedShip.direction = selectedShip.direction == 'H' ? 'V' : 'H';
@@ -87,13 +86,11 @@ const addShip = () => {
         gameBoard.ships.push(selectedShip);
         if(gameBoard.ships.length == 5){
             enablePlayButton();
-            console.log(gameBoard.boardString());
         }
         setPlayerGameBoard(gameBoard);
     }
 }
 const removeShip = (cell) => {
-    console.log(`${cell.id} double clicked`);
     const gameBoard = getPlayerGameboard();
 
     let x = cell.parentNode.id;
@@ -181,7 +178,6 @@ const attackCell = (cell) => {
         let machine = Player();
         let play = machine.RandomPlay(playerGameBoard.cells);
         let machineCell = document.querySelectorAll('.row')[play.x].childNodes[play.y];
-        console.log(machineCell);
         attackCell(machineCell);
     }
 }

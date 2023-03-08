@@ -39,14 +39,12 @@ function OpenPage(page){
                 SetCurrentPage(GamePage().id);
                 break;
             case 'GameOver':
-                console.log(page);
                 let winner = JSON.parse(sessionStorage.winner);
-                console.log(winner);
                 document.body.appendChild(GameOverPage(winner));
                 SetCurrentPage(GameOverPage().id);
                 break;
         }
-    }, 300);
+    }, 300); 
 
 }
 function OpenForm(form){

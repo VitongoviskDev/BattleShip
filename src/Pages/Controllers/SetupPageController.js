@@ -32,7 +32,6 @@ function disablePlayButton(){
     const button = document.querySelector('.play-button-container button').classList.remove('active');
 }
 function disableShipButton(ship){
-    console.log('disable: ' + ship.length)
     const button = document.querySelector(`#ship-button-${ship.length}`);
     button.classList.remove('active');
 

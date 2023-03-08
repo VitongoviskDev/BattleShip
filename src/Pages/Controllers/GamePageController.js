@@ -16,7 +16,6 @@ function FillBoards(nickname){
 
     const machine = Player();
     const machineGameboard = machine.GenerateBoard();
-    console.log(machineGameboard.boardString());
     setMachineGameboard(machineGameboard);
 }
 const FillBoard = (board, gameBoard) =>{
@@ -25,7 +24,6 @@ const FillBoard = (board, gameBoard) =>{
         for (let y = 0; y < gameBoard.boardSize; y++) {
             let currentCell = cells[x][y];
             if(currentCell.id > -1){
-                console.log(board.querySelectorAll('.row')[x].childNodes[y]);
                 board.querySelectorAll('.row')[x].childNodes[y].classList.add('ship');
             }
         }

@@ -29,7 +29,6 @@ const Player = () =>{
                 }
             }
         }
-        console.log(gameBoard.boardString());
 
         return gameBoard;
     }
