@@ -14,7 +14,7 @@ function HandleSetupPiecesButtonClicked(button, size){
         }  
 
         let ship = Ship(size -1, size);
-        localStorage.selectedShip = JSON.stringify(ship);
+        sessionStorage.selectedShip = JSON.stringify(ship);
 
         button.classList.add('selected');
     }

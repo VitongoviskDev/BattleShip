@@ -11,14 +11,14 @@ function OpenPage(page){
 
     let currentPageContainerId = null;
 
-    if(localStorage.currentPageContainerId){
+    if(sessionStorage.currentPageContainerId){
         currentPageContainerId = GetCurrentPage();
     }
 
     const currentPage = document.getElementById(currentPageContainerId);
     
 
-    let nickname = JSON.parse(localStorage.nickname);
+    let nickname = JSON.parse(sessionStorage.nickname);
     setTimeout(() =>{
         if(currentPage){
             document.body.removeChild(currentPage);
@@ -40,7 +40,7 @@ function OpenPage(page){
                 break;
             case 'GameOver':
                 console.log(page);
-                let winner = JSON.parse(localStorage.winner);
+                let winner = JSON.parse(sessionStorage.winner);
                 console.log(winner);
                 document.body.appendChild(GameOverPage(winner));
                 SetCurrentPage(GameOverPage().id);
@@ -66,13 +66,13 @@ function CloseForm(){
 
 }
 function GetCurrentPage(){
-    return JSON.parse(localStorage.currentPageContainerId)
+    return JSON.parse(sessionStorage.currentPageContainerId)
 };
 
 
-const SetCurrentPage = (page) => localStorage.currentPageContainerId = JSON.stringify(page);
-const SetCurrentForm = (form) => localStorage.currentFormId = JSON.stringify(form);
-const getCurrentForm = () => JSON.parse(localStorage.currentFormId);
+const SetCurrentPage = (page) => sessionStorage.currentPageContainerId = JSON.stringify(page);
+const SetCurrentForm = (form) => sessionStorage.currentFormId = JSON.stringify(form);
+const getCurrentForm = () => JSON.parse(sessionStorage.currentFormId);
 
 
 export {OpenPage, GetCurrentPage, OpenForm, CloseForm}; 

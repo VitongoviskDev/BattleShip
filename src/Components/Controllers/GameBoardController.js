@@ -163,8 +163,8 @@ const attackCell = (cell) => {
         cell.classList.add("attacked");
 
         if(gameBoard.isAllShipsShunk()){
-            let nickname = JSON.parse(localStorage.nickname);
-            localStorage.winner = JSON.stringify(cell.parentNode.parentNode.id == 'player-board' ?  'machine' : nickname);
+            let nickname = JSON.parse(sessionStorage.nickname);
+            sessionStorage.winner = JSON.stringify(cell.parentNode.parentNode.id == 'player-board' ?  'machine' : nickname);
             OpenPage(GameOverPage().id)
         }
         if(cell.parentNode.parentNode.id == 'player-board'){
@@ -188,26 +188,26 @@ const attackCell = (cell) => {
 
 
 function setPlayerGameBoard(board){
-    localStorage.playerGameBoard = JSON.stringify(board);
+    sessionStorage.playerGameBoard = JSON.stringify(board);
 }
 function getPlayerGameboard(){
-    let boardData = JSON.parse(localStorage.playerGameBoard);
+    let boardData = JSON.parse(sessionStorage.playerGameBoard);
     return GameBoard(boardData.cells, boardData.boardSize, boardData.ships);
 }
 const setMachineGameboard = (board) =>{
-    localStorage.machineGameboard = JSON.stringify(board);
+    sessionStorage.machineGameboard = JSON.stringify(board);
 }
 const getMachineGameboard = () =>{
-    let boardData = JSON.parse(localStorage.machineGameboard);
+    let boardData = JSON.parse(sessionStorage.machineGameboard);
     return GameBoard(boardData.cells, boardData.boardSize, boardData.ships);
 }
 
 const getSelectedShip = () =>{
-    let shipData = JSON.parse(localStorage.selectedShip);
+    let shipData = JSON.parse(sessionStorage.selectedShip);
     return Ship(shipData.id, shipData.length, shipData.direction, shipData.timesHited, shipData.shunk);
 }
 const setSelectedShip = (ship) =>{
-    localStorage.selectedShip = JSON.stringify(ship);
+    sessionStorage.selectedShip = JSON.stringify(ship);
 }
 
 

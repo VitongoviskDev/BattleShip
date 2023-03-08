@@ -18,6 +18,6 @@ const HandleCancelButtonClicked = () =>
 const ResetGame = () =>{
     setPlayerGameBoard(null);
     setMachineGameboard(null);
-    localStorage.nickname = JSON.stringify("");
+    sessionStorage.nickname = JSON.stringify("");
 }
 export {HandleConfirmButtonClicked, HandleCancelButtonClicked, ResetGame}

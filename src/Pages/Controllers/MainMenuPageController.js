@@ -6,7 +6,7 @@ const HandlePlayButtonClick = () =>{
     if(input.value == ''){
         input.classList.add('invalid');
     }else{
-        localStorage.nickname = JSON.stringify(input.value);
+        sessionStorage.nickname = JSON.stringify(input.value);
         
         document.querySelector('.page-root').classList.add('leave');
         
